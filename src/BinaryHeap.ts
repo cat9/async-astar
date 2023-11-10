@@ -2,7 +2,7 @@
  * 计分函数
  */
 export interface ScoreFunction<T> {
-    (element: any): number;
+    (element: T): number;
 }
 
 /**

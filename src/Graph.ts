@@ -19,11 +19,10 @@ export class Graph{
         this.nodes = [];
         this.diagonal = options.diagonal??false;
         this.grid = [];
-        for (var x = 0; x < gridIn.length; x++) {
+        for (let x = 0; x < gridIn.length; x++) {
             this.grid[x] = [];
-
-            for (var y = 0, row = gridIn[x]; y < row.length; y++) {
-                var node = new GridNode(x, y, row[y]);
+            for (let y = 0, row = gridIn[x]; y < row.length; y++) {
+                let node = new GridNode(x, y, row[y]);
                 this.grid[x][y] = node;
                 this.nodes.push(node);
             }
@@ -35,13 +34,13 @@ export class Graph{
 
     init():void {
         this.dirtyNodes = [];
-        for (var i = 0; i < this.nodes.length; i++) {
+        for (let i = 0; i < this.nodes.length; i++) {
             this.nodes[i].clean();
         }
     };
 
     cleanDirty() {
-        for (var i = 0; i < this.dirtyNodes.length; i++) {
+        for (let i = 0; i < this.dirtyNodes.length; i++) {
             this.dirtyNodes[i].clean();
         }
         this.dirtyNodes = [];
@@ -52,10 +51,10 @@ export class Graph{
     };
 
     neighbors(node:GridNode):GridNode[] {
-        var ret = [];
-        var x = node.x;
-        var y = node.y;
-        var grid = this.grid;
+        let ret = [];
+        let x = node.x;
+        let y = node.y;
+        let grid = this.grid;
 
         // West
         if (grid[x - 1] && grid[x - 1][y]) {
@@ -103,12 +102,12 @@ export class Graph{
     };
 
     toString():string {
-        var graphString = [];
-        var nodes = this.grid;
-        for (var x = 0; x < nodes.length; x++) {
-            var rowDebug = [];
-            var row = nodes[x];
-            for (var y = 0; y < row.length; y++) {
+        let graphString = [];
+        let nodes = this.grid;
+        for (let x = 0; x < nodes.length; x++) {
+            let rowDebug = [];
+            let row = nodes[x];
+            for (let y = 0; y < row.length; y++) {
                 rowDebug.push(row[y].weight);
             }
             graphString.push(rowDebug.join(" "));

@@ -11,7 +11,7 @@
 ### 对角线不可通行（四个方向可通行）
 ```typescript
 
-var graph = new Graph([
+let graph = new Graph([
     [1,1,1,1],
     [0,1,1,0],
     [0,0,1,1]
@@ -24,8 +24,8 @@ const astar = new AsyncAStar(graph,function (steps, result){
     console.log(result);
 },{closest:true,maxStepTimes:100});
 
-var start = graph.grid[0][0];
-var end = graph.grid[1][2];
+let start = graph.grid[0][0];
+let end = graph.grid[1][2];
 astar.search(start, end);
 
 
@@ -38,7 +38,7 @@ astar.step();
 ### 对角线可通行（八个方向可通行）
 ```typescript
 //开启对角线（八个方向）可通行 diagonal: true
-var graphDiagonal = new Graph([
+let graphDiagonal = new Graph([
     [1,1,1,1],
     [0,1,1,0],
     [0,0,1,1]
@@ -49,8 +49,8 @@ const astar = new AsyncAStar(graph,function (steps, result){
     console.log(result);
 },{closest:true,maxStepTimes:100});
 
-var start = graphDiagonal.grid[0][0];
-var end = graphDiagonal.grid[1][2];
+let start = graphDiagonal.grid[0][0];
+let end = graphDiagonal.grid[1][2];
 astar.search(start, end);
 
 
@@ -63,7 +63,7 @@ astar.step();
 ```typescript
 //包含权重的地图
 // Weight can easily be added by increasing the values within the graph, and where 0 is infinite (a wall)
-var graphWithWeight = new Graph([
+let graphWithWeight = new Graph([
     [1,1,2,30],
     [0,4,1.3,0],
     [0,0,5,1]
@@ -74,8 +74,8 @@ const astar = new AsyncAStar(graph,function (steps, result){
     console.log(result);
 },{closest:true,maxStepTimes:100});
 
-var startWithWeight = graphWithWeight.grid[0][0];
-var endWithWeight = graphWithWeight.grid[1][2];
+let startWithWeight = graphWithWeight.grid[0][0];
+let endWithWeight = graphWithWeight.grid[1][2];
 astar.search(startWithWeight, endWithWeight);
 
 
