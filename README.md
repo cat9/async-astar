@@ -17,12 +17,12 @@ let graph = new Graph([
     [0,0,1,1]
 ]);
 //closest:如果目标点不能是不可通行，是否自动选择目标最近可通行的点
-//maxStepTimes:单次step里面最多可迭代次数
+//maxIterationTimesInStep:单次step里面最多可迭代次数
 const astar = new AsyncAStar(graph,function (steps, result){
     //寻路结果回调
     console.log("steps:"+steps);
     console.log(result);
-},{closest:true,maxStepTimes:100});
+},{closest:true,maxIterationTimesInStep:100});
 
 let start = graph.grid[0][0];
 let end = graph.grid[1][2];
@@ -47,7 +47,7 @@ const astar = new AsyncAStar(graph,function (steps, result){
     //寻路结果回调
     console.log("steps:"+steps);
     console.log(result);
-},{closest:true,maxStepTimes:100});
+},{closest:true,maxIterationTimesInStep:100});
 
 let start = graphDiagonal.grid[0][0];
 let end = graphDiagonal.grid[1][2];
@@ -72,7 +72,7 @@ const astar = new AsyncAStar(graph,function (steps, result){
     //寻路结果回调
     console.log("steps:"+steps);
     console.log(result);
-},{closest:true,maxStepTimes:100});
+},{closest:true,maxIterationTimesInStep:100});
 
 let startWithWeight = graphWithWeight.grid[0][0];
 let endWithWeight = graphWithWeight.grid[1][2];

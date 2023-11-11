@@ -2,12 +2,18 @@ import {GridNode} from "./GridNode";
 import {BinaryHeap} from "./BinaryHeap";
 import {Graph} from "./Graph";
 
-export interface ResultFunction {
+export interface AStarResultFunction {
     (steps:number,result:GridNode[]): void;
 }
 
-export interface Heuristic {
+export interface HeuristicFunction {
     (pos0: GridNode, pos1: GridNode): number;
+}
+
+export interface AStarOptions{
+    heuristic?:HeuristicFunction;
+    closest?:boolean;//Specifies whether to return the closest path to the closest node if the target is unreachable, default false
+    maxIterationTimesInStep?:number;//max iteration times in one step, default 30
 }
 
 // See list of heuristics: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
@@ -30,9 +36,9 @@ export class Heuristics {
 export class AsyncAStar {
     public graph: Graph;
     private openHeap: BinaryHeap<GridNode>;
-    private readonly heuristic: Heuristic;
+    private readonly heuristic: HeuristicFunction;
     private readonly closest: boolean;
-    private readonly maxStepTimes:number;
+    private readonly maxIterationTimesInStep:number;
 
     private closestNode:GridNode;
 
@@ -40,7 +46,7 @@ export class AsyncAStar {
     private searchFrames:number;
     private start: GridNode;
     private end: GridNode;
-    private readonly callback:ResultFunction;
+    private readonly callback:AStarResultFunction;
 
 
     /**
@@ -52,15 +58,14 @@ export class AsyncAStar {
      * path to the closest node if the target is unreachable.
      * @param {Function} [options.heuristic] Heuristic function (see
      *          Heuristics).
-     *@param {Function} [options.maxStepTimes] maxStepTimes in one step).
+     *@param {Function} [options.maxIterationTimesInStep] maxIterationTimesInStep in one step).
      */
-    constructor(graph: Graph,callback:ResultFunction, options:any={}) {
-        options = options || {};
+    constructor(graph: Graph,callback:AStarResultFunction, options:AStarOptions={closest:false,maxIterationTimesInStep:30}) {
         this.graph = graph;
         this.callback=callback;
-        this.heuristic = options.heuristic??Heuristics.manhattan;
+        this.heuristic = options.heuristic??(graph.isDiagonal()?Heuristics.diagonal:Heuristics.manhattan);
         this.closest = options.closest??false;
-        this.maxStepTimes = options.maxStepTimes??30;
+        this.maxIterationTimesInStep = options.maxIterationTimesInStep??30;
         this.openHeap = new BinaryHeap<GridNode>(function (node: GridNode) {
             return node.f;
         });
@@ -110,7 +115,7 @@ export class AsyncAStar {
     public step(){
         if(this.isSearching){
             this.searchFrames++;
-            let stepLeft=this.maxStepTimes;
+            let stepLeft=this.maxIterationTimesInStep;
             while (this.openHeap.size() > 0 && stepLeft>0) {
                 stepLeft--;
                 // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.

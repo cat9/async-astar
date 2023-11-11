@@ -11,7 +11,7 @@ const astar = new AsyncAStar(graph,function (steps, result){
     console.log("cost time:"+(endTime-startTime));
     console.log("steps:"+steps);
     console.log(result);
-},{closest:true,maxStepTimes:100});
+},{closest:true,maxIterationTimesInStep:50});
 
 const start = astar.graph.grid[0][0];
 const end = astar.graph.grid[width/2][height/2];

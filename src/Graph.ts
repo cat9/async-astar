@@ -1,11 +1,15 @@
 import {GridNode} from "./GridNode";
 
+export interface GraphOptions{
+    diagonal?:boolean;//Specifies whether diagonal moves are allowed
+}
+
 export class Graph{
 
     private nodes:GridNode[];
     private dirtyNodes:GridNode[]=[];
     public grid:GridNode[][];
-    private diagonal:boolean;
+    private readonly diagonal:boolean;
 
 
     /**
@@ -14,8 +18,7 @@ export class Graph{
      * @param {Object} [options]
      * @param {bool} [options.diagonal] Specifies whether diagonal moves are allowed
      */
-    constructor(gridIn:number[][], options:any={}) {
-        options = options || {};
+    constructor(gridIn:number[][], options:GraphOptions={diagonal:false}) {
         this.nodes = [];
         this.diagonal = options.diagonal??false;
         this.grid = [];
@@ -30,7 +33,9 @@ export class Graph{
         this.init();
     }
 
-
+    isDiagonal():boolean{
+        return this.diagonal;
+    }
 
     init():void {
         this.dirtyNodes = [];
